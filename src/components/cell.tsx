@@ -18,7 +18,7 @@ export interface Props {
 export default function Cell({
   payload,
   isEmpty = false,
-  count = false
+  count
 }: Props) {
 
   function getBorderedStyle(): string {
