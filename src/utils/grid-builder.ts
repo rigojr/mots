@@ -17,6 +17,17 @@ export class GridBuilder {
   }
 
   /**
+   * Sorts the word collection from the longest to the shortest.
+   *
+   * @param words The collection of words.
+   *
+   * @returns The sorted word collection.
+   */
+  public sort(): string[] {
+    return [...this.words].sort((first, second) => second.length - first.length);
+  }
+
+  /**
    * Build the matrix from a given column and row counts.
    *
    * @param rows    The row counts.
