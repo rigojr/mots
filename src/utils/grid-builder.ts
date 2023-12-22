@@ -1,10 +1,14 @@
 export class GridBuilder {
-  private readonly words: string[]
-  private readonly matrix: string[][];
+  private matrix: string[][] = [[]];
+  private words: string[]
 
-  constructor(words: string[], rows: number, columns: number) {
+  constructor(words: string[]) {
     this.words = words;
+  }
+
+  public initialize(rows: number, columns: number): void {
     this.matrix = this.buildMatrix(rows, columns);
+    this.fillMatrix();
   }
 
   /**
@@ -24,7 +28,16 @@ export class GridBuilder {
    * @returns The sorted word collection.
    */
   public sort(): string[] {
-    return [...this.words].sort((first, second) => second.length - first.length);
+    this.words = [...this.words].sort((first, second) => second.length - first.length);
+
+    return this.words;
+  }
+
+  /**
+   * Fills the matrix with the words.
+   */
+  private fillMatrix(): void {
+    this.placeFirstWord();
   }
 
   /**
@@ -36,8 +49,36 @@ export class GridBuilder {
    * @returns The matrix.
    */
   private buildMatrix(rows: number, columns: number): string[][] {
+    // TODO: add condition related to the minimum allow for rows and columns.
+    // TODO: add conditions related to the given rows and columns should be capable of contain the given words.
     return new Array(columns).fill(undefined).map(() => {
       return new Array(rows).fill(undefined);
     });
+  }
+
+  /**
+   * Places the first word into the matrix.
+   */
+  private placeFirstWord(): void {
+    const firstWord = this.words[0].split('');
+    const columns = this.matrix.length;
+    const rows = this.matrix[0].length;
+    const isHorizontally = columns <= firstWord.length;
+    const isVertically = rows <= firstWord.length;
+
+    if (isHorizontally) {
+      const middleRowIndex = Math.round(columns/2);
+      const middleRow = this.matrix[middleRowIndex].map((_, index) => {
+        const isLocationOverWord = index > firstWord.length - 1;
+
+        if (!isLocationOverWord) {
+          return firstWord[index];
+        }
+
+        return '';
+      });
+
+      this.matrix[middleRowIndex] = middleRow;
+    }
   }
 }
