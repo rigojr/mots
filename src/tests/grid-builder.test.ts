@@ -20,8 +20,6 @@ describe("grid-builder", () => {
     const gridBuilder = new GridBuilder(words, rows, columns);
     const sortedWords = gridBuilder.sort();
 
-    console.log(sortedWords);
-
     expect(sortedWords[0]).toStrictEqual(words[0]);
     expect(sortedWords[sortedWords.length - 1]).toStrictEqual(words[1]);
   });
