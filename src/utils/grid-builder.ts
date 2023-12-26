@@ -72,6 +72,8 @@ export class GridBuilder {
       this.placeFirstWordHorizontally(firstWord);
     } else if (isVertically) {
       this.placeFirstWordVertically(firstWord);
+    } else {
+      throw new Error('Error placing the first word.')
     }
   }
 

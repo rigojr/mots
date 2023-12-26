@@ -70,4 +70,14 @@ describe("grid-builder", () => {
 
     expect(() => { grid.initialize(rows, columns); }).toThrow();
   });
+
+  test('should throw when first word cannot be place horizontally or vertically', () => {
+    const words = ['lemon', 'dog', 'fish'];
+    const rows = 1;
+    const columns = 1;
+
+    const grid = new GridBuilder(words);
+
+    expect(() => { grid.initialize(rows, columns); }).toThrow();
+  });
 });
