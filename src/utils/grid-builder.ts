@@ -61,24 +61,32 @@ export class GridBuilder {
    */
   private placeFirstWord(): void {
     const firstWord = this.words[0].split('');
-    const columns = this.matrix.length;
     const rows = this.matrix[0].length;
-    const isHorizontally = columns <= firstWord.length;
-    const isVertically = rows <= firstWord.length;
+    const isHorizontally = this.matrix.length >= firstWord.length;
+    const isVertically = rows >= firstWord.length;
 
     if (isHorizontally) {
-      const middleRowIndex = Math.round(columns/2);
-      const middleRow = this.matrix[middleRowIndex].map((_, index) => {
-        const isLocationOverWord = index > firstWord.length - 1;
-
-        if (!isLocationOverWord) {
-          return firstWord[index];
-        }
-
-        return '';
-      });
-
-      this.matrix[middleRowIndex] = middleRow;
+      this.placeFirstWordHorizontally(firstWord);
     }
+  }
+
+  /**
+   * Places the first world horizontally.
+   *
+   * @param word The word to be put.
+   */
+  private placeFirstWordHorizontally(firstWord: string[]) {
+    const middleRowIndex = Math.round(this.matrix.length / 2);
+    const middleRow = this.matrix[middleRowIndex].map((_, index) => {
+      const isLocationOverWord = index > firstWord.length - 1;
+
+      if (!isLocationOverWord) {
+        return firstWord[index];
+      }
+
+      return '';
+    });
+
+    this.matrix[middleRowIndex] = middleRow;
   }
 }
