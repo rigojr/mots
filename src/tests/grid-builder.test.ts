@@ -27,7 +27,8 @@ describe("grid-builder", () => {
   });
 
   test('should place the first word horizontally in the middle of the matrix', () => {
-    const words = ['lemon'];
+    const biggestWord = 'lemon';
+    const words = [biggestWord, 'dog', 'fish'];
     const rows = 10;
     const columns = 5;
 
@@ -37,13 +38,14 @@ describe("grid-builder", () => {
     const middleRowIndex = Math.round(rows / 2);
     const middleWord = grid.getMatrix()[middleRowIndex].join('').trim();
 
-    expect(middleWord).toStrictEqual(words[0]);
+    expect(middleWord).toStrictEqual(biggestWord);
   });
 
   test('should place the fist word vertically in the middle of the matrix when horizontally is not possible', () => {
-    const words = ['lemon'];
+    const biggestWord = 'lemon';
+    const words = [biggestWord, 'dog', 'fish'];
     const rows = 10;
-    const columns = words[0].length - 1;
+    const columns = biggestWord.length - 1;
 
     const grid = new GridBuilder(words);
     grid.initialize(rows, columns);
@@ -56,6 +58,16 @@ describe("grid-builder", () => {
       .join('')
       .trim();
 
-    expect(middleWord).toStrictEqual(words[0]);
+    expect(middleWord).toStrictEqual(biggestWord);
+  });
+
+  test('should throw when rows number is less than 1', () => {
+    const words = ['lemon', 'dog', 'fish'];
+    const rows = 0;
+    const columns = 1;
+
+    const grid = new GridBuilder(words);
+
+    expect(() => { grid.initialize(rows, columns); }).toThrow();
   });
 });

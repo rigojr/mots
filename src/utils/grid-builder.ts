@@ -49,8 +49,10 @@ export class GridBuilder {
    * @returns The matrix.
    */
   private buildMatrix(rows: number, columns: number): string[][] {
-    // TODO: add condition related to the minimum allow for rows and columns.
-    // TODO: add conditions related to the given rows and columns should be capable of contain the given words.
+    if (rows <= 0 || columns <= 0) {
+      throw new Error('Error building the matrix, please check the rows and columns count.');
+    }
+
     return new Array(rows).fill(undefined).map(() => {
       return new Array(columns).fill(undefined);
     });
