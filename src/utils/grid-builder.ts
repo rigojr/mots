@@ -69,17 +69,26 @@ export class GridBuilder {
     if (isHorizontally) {
       this.placeFirstWordHorizontally(firstWord);
     } else if (isVertically) {
-      const middleColumnIndex = Math.round(this.matrix[0].length / 2);
+      this.placeFirstWordVertically(firstWord);
+    }
+  }
 
-      this.matrix.forEach((_, rowIndex) => {
-        const isLocationOverflow = rowIndex > firstWord.length - 1;
+  /**
+   * Places the first world vertically.
+   *
+   * @param word The word to be put.
+   */
+  private placeFirstWordVertically(word: string[]) {
+    const middleColumnIndex = Math.round(this.matrix[0].length / 2);
 
-        if (isLocationOverflow) {
-          return; // TODO: should break, use for loop instead.
-        }
+    for (let rowIndex = 0; rowIndex < this.matrix.length; rowIndex++) {
+      const isLocationOverflow = rowIndex > word.length - 1;
 
-        this.matrix[rowIndex][middleColumnIndex] = firstWord[rowIndex];
-      });
+      if (isLocationOverflow) {
+        break;
+      }
+
+      this.matrix[rowIndex][middleColumnIndex] = word[rowIndex];
     }
   }
 
@@ -90,16 +99,15 @@ export class GridBuilder {
    */
   private placeFirstWordHorizontally(firstWord: string[]) {
     const middleRowIndex = Math.round(this.matrix.length / 2);
-    const middleRow = this.matrix[middleRowIndex].map((_, index) => { // TODO: is not mandatory to use the matrix here, will be better a new array to avoid confusion.
-      const isLocationOverflow = index > firstWord.length - 1;
 
-      if (!isLocationOverflow) {
-        return firstWord[index];
+    for (let columnIndex = 0; columnIndex < this.matrix[middleRowIndex].length; columnIndex++) {
+      const isLocationOverflow = columnIndex > firstWord.length - 1;
+
+      if (isLocationOverflow) {
+        break;
       }
 
-      return '';
-    });
-
-    this.matrix[middleRowIndex] = middleRow;
+      this.matrix[middleRowIndex][columnIndex] = firstWord[columnIndex];
+    }
   }
 }
