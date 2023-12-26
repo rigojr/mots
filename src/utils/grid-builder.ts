@@ -51,8 +51,8 @@ export class GridBuilder {
   private buildMatrix(rows: number, columns: number): string[][] {
     // TODO: add condition related to the minimum allow for rows and columns.
     // TODO: add conditions related to the given rows and columns should be capable of contain the given words.
-    return new Array(columns).fill(undefined).map(() => {
-      return new Array(rows).fill(undefined);
+    return new Array(rows).fill(undefined).map(() => {
+      return new Array(columns).fill(undefined);
     });
   }
 
@@ -61,12 +61,25 @@ export class GridBuilder {
    */
   private placeFirstWord(): void {
     const firstWord = this.words[0].split('');
-    const rows = this.matrix[0].length;
-    const isHorizontally = this.matrix.length >= firstWord.length;
+    const columns = this.matrix[0].length;
+    const rows = this.matrix.length;
+    const isHorizontally = columns >= firstWord.length;
     const isVertically = rows >= firstWord.length;
 
     if (isHorizontally) {
       this.placeFirstWordHorizontally(firstWord);
+    } else if (isVertically) {
+      const middleColumnIndex = Math.round(this.matrix[0].length / 2);
+
+      this.matrix.forEach((_, rowIndex) => {
+        const isLocationOverflow = rowIndex > firstWord.length - 1;
+
+        if (isLocationOverflow) {
+          return; // TODO: should break, use for loop instead.
+        }
+
+        this.matrix[rowIndex][middleColumnIndex] = firstWord[rowIndex];
+      });
     }
   }
 
@@ -77,10 +90,10 @@ export class GridBuilder {
    */
   private placeFirstWordHorizontally(firstWord: string[]) {
     const middleRowIndex = Math.round(this.matrix.length / 2);
-    const middleRow = this.matrix[middleRowIndex].map((_, index) => {
-      const isLocationOverWord = index > firstWord.length - 1;
+    const middleRow = this.matrix[middleRowIndex].map((_, index) => { // TODO: is not mandatory to use the matrix here, will be better a new array to avoid confusion.
+      const isLocationOverflow = index > firstWord.length - 1;
 
-      if (!isLocationOverWord) {
+      if (!isLocationOverflow) {
         return firstWord[index];
       }
 
