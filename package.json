@@ -11,9 +11,11 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
+    "@types/uuid": "^9.0.7",
     "next": "14.0.4",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.1.5",
